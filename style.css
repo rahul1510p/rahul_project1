@@ -14,7 +14,6 @@ header {
 
 header button {
   border-color: gold;
-  border: none;
   padding: 6px 12px;
   cursor: pointer;
 }
@@ -119,4 +118,5 @@ footer {
 }
 .but{
   background-color:orange;
+  color:white;
 }
