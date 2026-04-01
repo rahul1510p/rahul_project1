@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Employee Payroll System</title>
+  <link rel="stylesheet" href="style.css">
+
+  <!-- jsPDF CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+
+<header>
+  <h1>Employee Payroll System</h1>
+  <button id="toggleDark">🌙 Dark Mode</button>
+</header>
+
+<main>
+
+  <!-- FORM -->
+  <section class="card">
+    <h2>Add New Employee</h2>
+    <form id="employeeForm">
+      <input type="text" id="name" placeholder="Employee Name" required>
+      <input type="text" id="empId" placeholder="Employee ID" required>
+      <input type="text" id="dept" placeholder="Department">
+      <input type="text" id="contact" placeholder="Contact">
+
+      <input type="number" id="basic" placeholder="Basic Salary">
+      <input type="number" id="allow" placeholder="Allowances">
+      <input type="number" id="bonus" placeholder="Bonuses">
+      <input type="number" id="tax" placeholder="Tax %">
+      <input type="number" id="insurance" placeholder="Insurance">
+      <input type="number" id="other" placeholder="Other Earnings">
+
+      <button type="submit">Add Employee</button>
+      <button type="reset">Clear</button>
+    </form>
+  </section>
+
+  <!-- SUMMARY -->
+  <section class="card">
+    <h2>Payroll Summary</h2>
+    <p id="totalPayroll"></p>
+    <p id="totalTax"></p>
+    <p id="totalNet"></p>
+  </section>
+
+  <!-- SEARCH -->
+  <section class="card">
+    <input type="text" id="search" placeholder="Search Employee...">
+  </section>
+
+  <!-- TABLE -->
+  <section class="card">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Dept</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="employeeTable"></tbody>
+    </table>
+  </section>
+
+  <!-- DETAILS -->
+  <section class="card" id="details"></section>
+
+  <!-- API DATA -->
+  <section class="card">
+    <button id="loadApi">Load API Data</button>
+    <table>
+      <tbody id="apiData"></tbody>
+    </table>
+  </section>
+
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>
