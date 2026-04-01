@@ -1,83 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Employee Payroll System</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<title>Employee Payroll System</title>
+<link rel="stylesheet" href="style.css">
 
-  <!-- jsPDF CDN -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<!-- jsPDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 </head>
+
 <body>
 
 <header>
   <h1>Employee Payroll System</h1>
-  <button id="toggleDark" class="but">🌙 Dark Mode</button>
+  <p>Manage your employee payroll efficiently and effectively.</p>
+  <button id="darkBtn">🌙 Dark Mode</button>
 </header>
 
-<main>
+<div class="container">
 
-  <!-- FORM -->
-  <section class="card">
-    <h2>Add New Employee</h2>
-    <form id="employeeForm">
-      <input type="text" id="name" placeholder="Employee Name" required>
-      <input type="text" id="empId" placeholder="Employee ID" required>
-      <input type="text" id="dept" placeholder="Department">
-      <input type="text" id="contact" placeholder="Contact">
+<!-- FORM -->
+<div class="card">
+  <h3>Add New Employee</h3>
 
-      <input type="number" id="basic" placeholder="Basic Salary">
-      <input type="number" id="allow" placeholder="Allowances">
-      <input type="number" id="bonus" placeholder="Bonuses">
-      <input type="number" id="tax" placeholder="Tax %">
-      <input type="number" id="insurance" placeholder="Insurance">
-      <input type="number" id="other" placeholder="Other Earnings">
+  <form id="form">
+    <input id="name" placeholder="Employee Name" required>
+    <input id="id" placeholder="Employee ID" required>
+    <input id="dept" placeholder="Department">
+    <input id="contact" placeholder="Contact">
 
-      <button type="submit" class="temp">Add Employee</button>
-      <button type="reset" class="butt">Clear</button>
-    </form>
-  </section>
+    <input id="basic" type="number" placeholder="Basic Salary">
+    <input id="allow" type="number" placeholder="Allowances">
+    <input id="bonus" type="number" placeholder="Bonuses">
+    <input id="tax" type="number" placeholder="Tax %">
+    <input id="insurance" type="number" placeholder="Insurance">
+    <input id="other" type="number" placeholder="Other Earnings">
 
-  <!-- SUMMARY -->
-  <section class="card">
-    <h2>Payroll Summary</h2>
-    <p id="totalPayroll"></p>
-    <p id="totalTax"></p>
-    <p id="totalNet"></p>
-  </section>
+    <button type="submit" class="add">Add Employee</button>
+    <button type="reset" class="clear">Clear Form</button>
+  </form>
+</div>
 
-  <!-- SEARCH -->
-  <section class="card">
-    <input type="text" id="search" placeholder="Search Employee...">
-  </section>
+<!-- SUMMARY -->
+<div class="card">
+  <h3>Payroll Summary</h3>
+  <p id="payroll"></p>
+  <p id="taxTotal"></p>
+  <p id="netTotal"></p>
+</div>
 
-  <!-- TABLE -->
-  <section class="card">
+<!-- SEARCH + LIST -->
+<div class="card">
+  <h3>Employee List</h3>
+  <input id="search" placeholder="Search Employee...">
+
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Department</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody id="list"></tbody>
+  </table>
+</div>
+
+<!-- DETAILS -->
+<div class="card">
+  <h3>Employee Details</h3>
+  <div id="details"></div>
+</div>
+
+<!-- API -->
+<div class="card">
+  <h3>Employee Details From API</h3>
+  <button id="apiBtn">Refresh API Data</button>
+
+  <div class="scroll">
     <table>
       <thead>
         <tr>
-          <th>ID</th>
-          <th>Name</th>
-          <th>Dept</th>
-          <th>Actions</th>
+          <th>ID</th><th>Name</th><th>Age</th><th>Username</th>
+          <th>Email</th><th>Address</th><th>Phone</th>
+          <th>Website</th><th>Occupation</th><th>Hobbies</th>
         </tr>
       </thead>
-      <tbody id="employeeTable"></tbody>
+      <tbody id="api"></tbody>
     </table>
-  </section>
+  </div>
+</div>
 
-  <!-- DETAILS -->
-  <section class="card" id="details"></section>
+</div>
 
-  <!-- API DATA -->
-  <section class="card">
-    <button id="loadApi">Load API Data</button>
-    <table>
-      <tbody id="apiData"></tbody>
-    </table>
-  </section>
-
-</main>
+<footer>
+  © 2024 Employee Payroll System. All rights reserved.
+</footer>
 
 <script src="script.js"></script>
 </body>
