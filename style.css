@@ -82,15 +82,38 @@ footer {
 }
 
 /* DARK MODE */
+/* DARK MODE FULL FIX */
 .dark {
-  background: #121212;
-  color: white;
+  background-color: #121212;
+  color: #ffffff;
 }
 
 .dark .card {
-  background: #1e1e1e;
+  background-color: #1e1e1e;
 }
 
-.dark header, .dark footer {
-  background: black;
+.dark input {
+  background-color: #2c2c2c;
+  color: white;
+  border: 1px solid #555;
+}
+
+.dark table {
+  color: white;
+}
+
+.dark th {
+  background-color: #333;
+}
+
+.dark td {
+  border-color: #444;
+}
+
+.dark header {
+  background-color: #000;
+}
+
+.dark footer {
+  background-color: #000;
 }
