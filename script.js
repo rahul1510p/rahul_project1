@@ -120,7 +120,18 @@ function pdf(i) {
 }
 
 // DARK MODE
-darkBtn.onclick = () => document.body.classList.toggle("dark");
+const darkBtn = document.getElementById("darkBtn");
+
+darkBtn.addEventListener("click", () => {
+  document.body.classList.toggle("dark");
+
+  // CHANGE BUTTON TEXT + ICON
+  if (document.body.classList.contains("dark")) {
+    darkBtn.innerHTML = "☀️ Dark Mode";
+  } else {
+    darkBtn.innerHTML = "🌙 Dark Mode";
+  }
+});
 
 // API FETCH
 apiBtn.onclick = async () => {
