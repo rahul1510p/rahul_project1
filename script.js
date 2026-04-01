@@ -1,12 +1,12 @@
-let employeeData = JSON.parse(localStorage.getItem("employees")) || [];
+let data = JSON.parse(localStorage.getItem("emp")) || [];
 
 // ADD EMPLOYEE
-document.getElementById("employeeForm").addEventListener("submit", function(e) {
+document.getElementById("form").addEventListener("submit", e => {
   e.preventDefault();
 
   let emp = {
     name: name.value,
-    id: empId.value,
+    id: id.value,
     dept: dept.value,
     contact: contact.value,
     basic: +basic.value,
@@ -21,34 +21,32 @@ document.getElementById("employeeForm").addEventListener("submit", function(e) {
   emp.taxAmount = (emp.gross * emp.tax) / 100;
   emp.net = emp.gross - emp.taxAmount - emp.insurance;
 
-  employeeData.push(emp);
-  saveData();
-  displayEmployees();
-  updateSummary();
-
-  this.reset();
+  data.push(emp);
+  save();
+  show();
+  summary();
+  e.target.reset();
 });
 
 // SAVE
-function saveData() {
-  localStorage.setItem("employees", JSON.stringify(employeeData));
+function save() {
+  localStorage.setItem("emp", JSON.stringify(data));
 }
 
-// DISPLAY
-function displayEmployees(list = employeeData) {
-  let table = document.getElementById("employeeTable");
-  table.innerHTML = "";
+// SHOW LIST
+function show(arr = data) {
+  list.innerHTML = "";
 
-  list.forEach((emp, index) => {
-    table.innerHTML += `
+  arr.forEach((e, i) => {
+    list.innerHTML += `
       <tr>
-        <td>${emp.id}</td>
-        <td>${emp.name}</td>
-        <td>${emp.dept}</td>
+        <td>${e.id}</td>
+        <td>${e.name}</td>
+        <td>${e.dept}</td>
         <td>
-          <button onclick="viewEmployee(${index})">View</button>
-          <button onclick="deleteEmployee(${index})">Delete</button>
-          <button onclick="generatePDF(${index})">PDF</button>
+          <button onclick="view(${i})">View</button>
+          <button onclick="del(${i})">Delete</button>
+          <button onclick="pdf(${i})">PDF</button>
         </td>
       </tr>
     `;
@@ -56,98 +54,99 @@ function displayEmployees(list = employeeData) {
 }
 
 // DELETE
-function deleteEmployee(index) {
-  employeeData.splice(index, 1);
-  saveData();
-  displayEmployees();
+function del(i) {
+  data.splice(i, 1);
+  save();
+  show();
 }
 
 // SEARCH
-document.getElementById("search").addEventListener("input", function() {
-  let value = this.value.toLowerCase();
-
-  let filtered = employeeData.filter(emp =>
-    emp.name.toLowerCase().includes(value) ||
-    emp.dept.toLowerCase().includes(value) ||
-    emp.id.toLowerCase().includes(value)
+search.addEventListener("input", () => {
+  let v = search.value.toLowerCase();
+  let f = data.filter(e =>
+    e.name.toLowerCase().includes(v) ||
+    e.dept.toLowerCase().includes(v) ||
+    e.id.toLowerCase().includes(v)
   );
-
-  displayEmployees(filtered);
+  show(f);
 });
 
 // SUMMARY
-function updateSummary() {
-  let totalPayroll = 0, totalTax = 0, totalNet = 0;
+function summary() {
+  let p = 0, t = 0, n = 0;
 
-  employeeData.forEach(emp => {
-    totalPayroll += emp.gross;
-    totalTax += emp.taxAmount;
-    totalNet += emp.net;
+  data.forEach(e => {
+    p += e.gross;
+    t += e.taxAmount;
+    n += e.net;
   });
 
-  totalPayroll = totalPayroll.toFixed(2);
-  totalTax = totalTax.toFixed(2);
-  totalNet = totalNet.toFixed(2);
-
-  document.getElementById("totalPayroll").innerText = "Total Payroll: " + totalPayroll;
-  document.getElementById("totalTax").innerText = "Total Tax: " + totalTax;
-  document.getElementById("totalNet").innerText = "Total Net: " + totalNet;
+  payroll.innerText = "Total Payroll: " + p.toFixed(2);
+  taxTotal.innerText = "Total Tax: " + t.toFixed(2);
+  netTotal.innerText = "Total Net Salary: " + n.toFixed(2);
 }
 
-// VIEW
-function viewEmployee(index) {
-  let emp = employeeData[index];
+// VIEW DETAILS
+function view(i) {
+  let e = data[i];
 
-  document.getElementById("details").innerHTML = `
-    <h3>Payslip</h3>
-    <p>Name: ${emp.name}</p>
-    <p>Gross: ${emp.gross}</p>
-    <p>Tax: ${emp.taxAmount}</p>
-    <p>Net Salary: ${emp.net}</p>
+  details.innerHTML = `
+    <div class="card">
+      <h4>Payslip</h4>
+      <p><b>Name:</b> ${e.name}</p>
+      <p><b>ID:</b> ${e.id}</p>
+      <p><b>Basic:</b> ${e.basic}</p>
+      <p><b>Gross:</b> ${e.gross}</p>
+      <p><b>Tax:</b> ${e.taxAmount}</p>
+      <p><b>Net Salary:</b> ${e.net}</p>
+      <button onclick="pdf(${i})">Download Payslip</button>
+    </div>
   `;
 }
 
 // PDF
-function generatePDF(index) {
+function pdf(i) {
   const { jsPDF } = window.jspdf;
   let doc = new jsPDF();
-
-  let emp = employeeData[index];
+  let e = data[i];
 
   doc.text("Payslip", 20, 20);
-  doc.text("Name: " + emp.name, 20, 40);
-  doc.text("Gross: " + emp.gross, 20, 60);
-  doc.text("Tax: " + emp.taxAmount, 20, 80);
-  doc.text("Net: " + emp.net, 20, 100);
+  doc.text("Name: " + e.name, 20, 40);
+  doc.text("Gross: " + e.gross, 20, 60);
+  doc.text("Tax: " + e.taxAmount, 20, 80);
+  doc.text("Net: " + e.net, 20, 100);
 
-  doc.save(emp.name + "_payslip.pdf");
+  doc.save(e.name + ".pdf");
 }
 
 // DARK MODE
-document.getElementById("toggleDark").addEventListener("click", () => {
-  document.body.classList.toggle("dark");
-});
+darkBtn.onclick = () => document.body.classList.toggle("dark");
 
 // API FETCH
-document.getElementById("loadApi").addEventListener("click", async () => {
+apiBtn.onclick = async () => {
   let res = await fetch("https://www.freetestapi.com/api/v1/users");
-  let data = await res.json();
+  let users = await res.json();
 
-  let table = document.getElementById("apiData");
-  table.innerHTML = "";
+  api.innerHTML = "";
 
-  data.slice(0, 5).forEach(user => {
-    table.innerHTML += `
+  users.slice(0, 10).forEach(u => {
+    api.innerHTML += `
       <tr>
-        <td>${user.id}</td>
-        <td>${user.name}</td>
-        <td>${user.email}</td>
-        <td>${user.phone}</td>
+        <td>${u.id}</td>
+        <td>${u.name}</td>
+        <td>${u.age}</td>
+        <td>${u.username}</td>
+        <td>${u.email}</td>
+        <td>${u.address}</td>
+        <td>${u.phone}</td>
+        <td>${u.website}</td>
+        <td>${u.occupation}</td>
+        <td>${u.hobbies?.join(", ")}</td>
       </tr>
     `;
   });
-});
+};
 
-// INITIAL LOAD
-displayEmployees();
-updateSummary();
+// INIT
+show();
+summary();
